@@ -14,6 +14,7 @@ int window_height = 600;
 uint32_t* color_buffer = NULL;
 
 void draw_grid(void);
+void draw_rect(int, int, int, int, uint32_t);
 
 bool initialize_window(void) {
   if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -116,9 +117,10 @@ void render(void) {
   SDL_RenderClear(renderer);
 
   draw_grid();
+  draw_rect(300,300,100,100,0xffff00ff);
 
   render_color_buffer();
-  clear_color_buffer(0xffffff00);
+  clear_color_buffer(0xff000000);
 
   SDL_RenderPresent(renderer);
 }
@@ -146,11 +148,20 @@ int main() {
 }
 
 void draw_grid(void) {
-  for (int y = 0; y < window_height; y++) {
-    for (int x = 0; x < window_width; x++) {
-      if ((y % 10 == 0) || (x % 10 == 0)) {
-        color_buffer[window_width * y + x] = 0xff000000;
-      }
+  for (int y = 0; y < window_height; y += 10) {
+    for (int x = 0; x < window_width; x += 10) {
+      color_buffer[window_width * y + x] = 0xffD3D3D3;
+    }
+  }
+}
+
+void draw_rect(int x, int y, int width, int height, uint32_t color) {
+  int max_w = x + width;
+  int max_h = y + height;
+
+  for (int i = x; i < max_w; i++) {
+    for (int j = y; j < max_h; j++) {
+      color_buffer[window_width * j + i] = color;
     }
   }
 }
