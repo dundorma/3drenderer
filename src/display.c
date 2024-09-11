@@ -73,6 +73,12 @@ void destroy_window(void) {
   SDL_Quit();
 }
 
+void draw_pixel(int x, int y, uint32_t color) {
+  if (x >= 0 && x < window_width && y >= 0 && y < window_height){
+    color_buffer[window_width * y + x] = color;
+  }
+}
+
 void draw_grid(void) {
   for (int y = 0; y < window_height; y += 10) {
     for (int x = 0; x < window_width; x += 10) {
@@ -87,7 +93,7 @@ void draw_rect(int x, int y, int width, int height, uint32_t color) {
 
   for (int i = x; i < max_w; i++) {
     for (int j = y; j < max_h; j++) {
-      color_buffer[window_width * j + i] = color;
+      draw_pixel(i, j, color);
     }
   }
 }
